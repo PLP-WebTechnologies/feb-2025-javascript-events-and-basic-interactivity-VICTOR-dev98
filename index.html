@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Webpage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+    .hidden {
+      display: none;
+    }
+    button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Interactive Webpage</h1>
+  <form id="userForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <span id="nameError" class="error hidden">Name is required.</span>
+    <br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <span id="emailError" class="error hidden">Valid email is required.</span>
+    <br><br>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="greeting" class="hidden">
+    <h2>Welcome!</h2>
+    <p id="greetingMessage"></p>
+    <button id="resetButton">Reset</button>
+  </div>
+
+  <script>
+    // Select elements
+    const form = document.getElementById('userForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const nameError = document.getElementById('nameError');
+    const emailError = document.getElementById('emailError');
+    const greeting = document.getElementById('greeting');
+    const greetingMessage = document.getElementById('greetingMessage');
+    const resetButton = document.getElementById('resetButton');
+
+    // Form validation and submission
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent form submission
+
+      let isValid = true;
+
+      // Validate name
+      if (nameInput.value.trim() === '') {
+        nameError.classList.remove('hidden');
+        isValid = false;
+      } else {
+        nameError.classList.add('hidden');
+      }
+
+      // Validate email
+      if (!emailInput.value.trim().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        emailError.classList.remove('hidden');
+        isValid = false;
+      } else {
+        emailError.classList.add('hidden');
+      }
+
+      // If valid, show greeting
+      if (isValid) {
+        greetingMessage.textContent = `Hello, ${nameInput.value}! Your email is ${emailInput.value}.`;
+        form.classList.add('hidden');
+        greeting.classList.remove('hidden');
+      }
+    });
+
+    // Reset button functionality
+    resetButton.addEventListener('click', () => {
+      form.reset();
+      form.classList.remove('hidden');
+      greeting.classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
